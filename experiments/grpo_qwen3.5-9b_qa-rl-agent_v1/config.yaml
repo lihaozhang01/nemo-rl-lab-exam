@@ -41,9 +41,9 @@ data:
   num_workers: 1
   use_multiple_dataloader: false
   train:
-    data_path: ${oc.env:QA_RL_DATA_DIR}/train.jsonl
+    data_path: /data/datasets/qa_rl/train.jsonl
   validation:
-    data_path: ${oc.env:QA_RL_DATA_DIR}/val.jsonl
+    data_path: /data/datasets/qa_rl/val.jsonl
 
 env:
   qa_agent:
