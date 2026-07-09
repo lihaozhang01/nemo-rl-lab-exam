@@ -9,27 +9,27 @@ policy:
   model_name: "Qwen/Qwen3.5-9B-Base"
   tokenizer:
     name: "Qwen/Qwen3.5-9B-Base"
-  max_total_sequence_length: 1536
-  train_global_batch_size: 32
-  generation_batch_size: 16
+  max_total_sequence_length: 3072
+  train_global_batch_size: 4
+  generation_batch_size: 2
   generation:
-    max_new_tokens: 256
-    temperature: 1.0
-    top_p: 0.95
-    stop_strings: ["</search>"]
+    max_new_tokens: 128
+    temperature: 0.6
+    top_p: 0.9
+    stop_strings: ["</search>", "</read>"]
     vllm_cfg:
-      gpu_memory_utilization: 0.55
+      gpu_memory_utilization: 0.5
 
 grpo:
-  num_prompts_per_step: 4
-  num_generations_per_prompt: 8
-  max_rollout_turns: 6
+  num_prompts_per_step: 1
+  num_generations_per_prompt: 4
+  max_rollout_turns: 7
   max_num_steps: 300
   val_period: 10
   val_at_start: true
   val_at_end: true
   max_val_samples: 128
-  val_batch_size: 64
+  val_batch_size: 8
 
 loss_fn:
   reference_policy_kl_penalty: 0.01
@@ -50,14 +50,20 @@ env:
     cfg:
       docs_dir: /data/docs
       require_docs: true
-      max_turns: 6
+      use_chat_template: true
+      use_few_shot: true
+      max_turns: 5
+      max_search_attempts: 3
+      max_read_attempts: 2
       reward_phase: curriculum
       feedback_style: natural
-      search_top_k: 4
+      search_top_k: 8
       max_queries_per_turn: 3
       max_query_chars: 64
-      max_retrieval_tokens_per_turn: 240
-      max_total_retrieval_tokens: 560
+      max_retrieval_tokens_per_turn: 420
+      max_read_tokens_per_turn: 800
+      read_radius: 2
+      max_total_retrieval_tokens: 1800
       max_bad_output_chars: 160
 
 logger:
